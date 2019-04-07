@@ -1,6 +1,6 @@
 name: bubbled_navigation_bar
 description: Stunning Animating Bubbled Shape Navigation Bar. Adjustable color, background color, animation curve, animation duration. Working with PageView via controller param.
-version: 0.0.1
+version: 0.0.2
 author: Lychkovsky Pavel <lychkovsky.pavel@gmail.com>
 homepage: https://github.com/Lapskaus/simple_video_catalog
 

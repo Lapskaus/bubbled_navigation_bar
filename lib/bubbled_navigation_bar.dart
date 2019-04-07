@@ -53,7 +53,6 @@ class _BubbledNavigationBarState extends State<BubbledNavigationBar> with Ticker
 
   MenuPositionController _controller;
 
-  GlobalKey rootKey = GlobalKey();
   List<GlobalKey> titlesKeys = List<GlobalKey>();
   List<GlobalKey> iconsKeys = List<GlobalKey>();
   List<double> titleWidths = List<double>();
@@ -111,7 +110,7 @@ class _BubbledNavigationBarState extends State<BubbledNavigationBar> with Ticker
 
     _calculateRectsForGroundedItems();
 
-    double currentWidgetWidth = _getWidgetWidth();
+    double currentWidgetWidth = _getMenuWidth();
     if (_customDrawingForWidth != currentWidgetWidth) {
       setState(() {
         _customDrawingForWidth = currentWidgetWidth;
@@ -119,14 +118,7 @@ class _BubbledNavigationBarState extends State<BubbledNavigationBar> with Ticker
     }
   }
 
-  double _getWidgetWidth() {
-    if (rootKey.currentContext != null) {
-      RenderBox renderBox = rootKey.currentContext.findRenderObject();
-      return renderBox.size.width;
-    } else {
-      return (MediaQuery.of(context).size.width - 2 * _kHorizontalPadding);
-    }
-  }
+  double _getMenuWidth() => (MediaQuery.of(context).size.width - 2 * _kHorizontalPadding);
 
   void _calculateRectsForGroundedItems() {
     _selectedItemWidthMax = 0;
@@ -138,19 +130,10 @@ class _BubbledNavigationBarState extends State<BubbledNavigationBar> with Ticker
     }
   }
 
-  Size _widgetSize() {
-    if (rootKey.currentContext != null) {
-      RenderBox renderBoxRed = rootKey.currentContext.findRenderObject();
-      return renderBoxRed.size;
-    } else {
-      return Size.zero;
-    }
-  }
-
   double _itemWidth(int index) => iconsWidths[index] + widget.iconRightMargin + titleWidths[index];
 
   Rect _rectForGroundedItem(int index) {
-    double shrinkedItemWidth = (_widgetSize().width - _selectedItemWidthMax) / (widget.items.length - 1);
+    double shrinkedItemWidth = (_getMenuWidth() - _selectedItemWidthMax) / (widget.items.length - 1);
     double paddingForEmptySpace = (_selectedItemWidthMax - _itemWidth(index)) / 2;
 
     return Rect.fromLTWH(
@@ -233,7 +216,7 @@ class _BubbledNavigationBarState extends State<BubbledNavigationBar> with Ticker
   @override
   Widget build(BuildContext context) {
     final double additionalBottomPadding = math.max(MediaQuery.of(context).padding.bottom - _kBottomMargin, 0.0);
-    final double unselectedItemWidth = (_getWidgetWidth() - _selectedItemWidthMax) / (widget.items.length - 1);
+    final double unselectedItemWidth = (_getMenuWidth() - _selectedItemWidthMax) / (widget.items.length - 1);
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _updateDrawingInfo());
 
@@ -250,7 +233,6 @@ class _BubbledNavigationBarState extends State<BubbledNavigationBar> with Ticker
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: _kHorizontalPadding),
             child: Stack(
-              key: rootKey,
               alignment: Alignment.bottomCenter,
               children: <Widget>[
                 CustomPaint(
