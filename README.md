@@ -48,7 +48,7 @@ body: Container(color: Colors.blue,),
 )
 ```
 
-### Easy to use
+### Advanced use
 Way of use with PageView and sliding animation from example.gif you can see in example folder.
 
 ### Attributes
