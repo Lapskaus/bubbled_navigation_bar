@@ -9,7 +9,7 @@ A Flutter package for easy implementation of bubbled navigation bar.
 
 ```yaml
 dependencies:
-  bubbled_navigation_bar: ^0.1.1 #latest version
+  bubbled_navigation_bar: ^0.0.3 #latest version
 ```
 
 ### Easy to use
