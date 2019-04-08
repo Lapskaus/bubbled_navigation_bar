@@ -11,8 +11,8 @@ class BubbledNavigationBar extends StatefulWidget {
   final List<BubbledNavigationBarItem> items;
   final MenuPositionController controller;
   final int initialIndex;
-  final double selectionHorizontalPadding;
   final double iconRightMargin;
+  final EdgeInsets itemMargin;
   final Color defaultBubbleColor;
   final Color backgroundColor;
   final Curve animationCurve;
@@ -24,9 +24,9 @@ class BubbledNavigationBar extends StatefulWidget {
     @required this.items,
     this.controller,
     this.defaultBubbleColor = Colors.blueAccent,
-    this.iconRightMargin = 8,
-    this.selectionHorizontalPadding = 8,
+    this.iconRightMargin = 6,
     this.initialIndex = 0,
+    this.itemMargin,
     this.backgroundColor = Colors.white,
     this.onTap,
     this.animationCurve = Curves.easeInOutQuad,
@@ -46,7 +46,8 @@ class _BubbledNavigationBarState extends State<BubbledNavigationBar> with Ticker
   static const double _kMinIconWidth = 1.0;
   static const double _kBarHeight = 55.0;
   static const double _kBubbleHeight = 45.0;
-  static const double _kHorizontalPadding = 16.0;
+  static const double _kHorizontalPadding = 8.0;
+  static const EdgeInsets _kBubblePadding = EdgeInsets.only(left: 13, right: 10);
 
   double _selectedItemWidthMax = 0;
   double _customDrawingForWidth = 0;
@@ -125,14 +126,18 @@ class _BubbledNavigationBarState extends State<BubbledNavigationBar> with Ticker
     for (var index = 0; index < widget.items.length; index++) {
       _selectedItemWidthMax = math.max(_selectedItemWidthMax, _itemWidth(index));
     }
+    _selectedItemWidthMax += (widget.itemMargin != null ? widget.itemMargin.left + widget.itemMargin.right : 0);
+
     for (var index = 0; index < widget.items.length; index++) {
-      selectedItemsRects.add(_rectForGroundedItem(index));
+      selectedItemsRects.add(_rectForItem(index));
     }
   }
 
-  double _itemWidth(int index) => iconsWidths[index] + widget.iconRightMargin + titleWidths[index];
+  double _itemWidth(int index) => iconsWidths[index] + 
+                                  widget.iconRightMargin + 
+                                  titleWidths[index];
 
-  Rect _rectForGroundedItem(int index) {
+  Rect _rectForItem(int index) {
     double shrinkedItemWidth = (_getMenuWidth() - _selectedItemWidthMax) / (widget.items.length - 1);
     double paddingForEmptySpace = (_selectedItemWidthMax - _itemWidth(index)) / 2;
 
@@ -181,9 +186,9 @@ class _BubbledNavigationBarState extends State<BubbledNavigationBar> with Ticker
   SelectionPainter _selectionPainter(Rect rect, Color color) {
     double y = rect.top + rect.height / 2;
     return SelectionPainter(
-      rect.left + 1.4 * widget.selectionHorizontalPadding,
+      rect.left + _kBubblePadding.left,
       y,
-      rect.left + rect.width - widget.selectionHorizontalPadding,
+      rect.left + rect.width - _kBubblePadding.right,
       y,
       radius: rect.height / 2,
       controlPointsOffset: rect.height / 10 * 3,

@@ -90,6 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BubbledNavigationBar(
         controller: _menuPositionController,
         initialIndex: 0,
+        itemMargin: EdgeInsets.symmetric(horizontal: 8),
         backgroundColor: Colors.white,
         defaultBubbleColor: Colors.blue,
         onTap: (index) {
