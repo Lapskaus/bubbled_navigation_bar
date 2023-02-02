@@ -5,7 +5,7 @@ author: Lychkovsky Pavel <lychkovsky.pavel@gmail.com>
 homepage: https://github.com/Lapskaus/bubbled_navigation_bar
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.19.0 <3.0.0"
 
 dependencies:
   flutter:
